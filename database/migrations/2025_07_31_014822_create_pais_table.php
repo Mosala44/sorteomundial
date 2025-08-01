@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->integer('ranking');
-            $table->string('confederacion');  
+            $table->string('confederacion');
         });
     }
 
