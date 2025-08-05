@@ -5,8 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Pais;
-class PaisController extends Controller
+use App\Models\bombo1;
+class Bombo1Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class PaisController extends Controller
      */
     public function index()
     {
-        $paises = Pais::all();
+        $paises = bombo1::all();
         $data = [
             'paises' => $paises,
             'status' => 200
@@ -31,33 +31,39 @@ class PaisController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-        'nombre' => 'required',
-        'ranking' => 'required',
-        'confederacion' => 'required',
-    ]);
-
-    if ($validator->fails()) {
-        $data = [
-            'message' => 'Error en la validación de datos',
-            'errors'  => $validator->errors(),
-            'status'  => 400
-        ];
-
-        return response()->json($data, 400);
-    }
-
-    $paises = Pais::create([
-        'nombre'=> $request->nombre,
-        'ranking'=> $request->ranking,
-        'confederacion'=> $request->confederacion,
-    ]);
-
-    return response()->json([
-        'message' => 'Pais creado correctamente',
-        'data'    => $paises,
-        'status'  => 201
-    ], 201);
+       // VALIDACION : LIMITE DE 16 PAISES POR BOMBO
+        if(bombo1::count()>=16){
+            return response()->json([
+                'message' => 'No se pueden agregar más de 16 países',
+                'status' => 400
+            ], 400);
+        }
+        // VALIDACION : CAMPOS REQUERIDOS
+        $validator = Validator::make($request->all(),[
+            'nombre'=> 'required',
+            'ranking'=> 'required',
+            'confederacion'=> 'required',
+        ]);
+        // Validación de errores
+        if($validator->fails()){
+            $data = [
+                'message'=> 'Error en la validacion de datos',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ];
+            return response()->json($data, 400);
+        }
+        $paises = bombo1::create([
+            'nombre' => $request->nombre,
+            'ranking' => $request->ranking,
+            'confederacion' => $request->confederacion,
+        ]);
+        return response()->json([
+            'message' => 'Pais creado correctamente',
+            'data' => $paises,
+            'status' => 201
+        ], 201);
+    
 }
 
     /**
