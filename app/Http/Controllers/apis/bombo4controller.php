@@ -49,6 +49,7 @@ class bombo4controller extends Controller
                 'status' => 400
             ];
             return response()->json($data, 400);
+        }
             
         $paises = bombo4::create([
             'nombre' => $request->nombre,
@@ -60,7 +61,7 @@ class bombo4controller extends Controller
             'data' => $paises,
             'status' => 201
         ], 201);
-    }}
+    }
 
     /**
      * Display the specified resource.

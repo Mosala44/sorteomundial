@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grupo', function (Blueprint $table) {
-            $table->id();
+        Schema::create('grupos', function (Blueprint $table) {
+           $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('sorteo_id');
 
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bombo4_id');
 
             //RELACIONES
-            $table->foreign('sorteo_id')->references('id')->on('sorteo')->onDelete('cascade');
+            $table->foreign('sorteo_id')->references('id')->on('sorteos')->onDelete('cascade');
             $table->foreign('bombo1_id')->references('id')->on('bombo1')->onDelete('cascade');
             $table->foreign('bombo2_id')->references('id')->on('bombo2')->onDelete('cascade');
             $table->foreign('bombo3_id')->references('id')->on('bombo3')->onDelete('cascade');
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grupo');
+        Schema::dropIfExists('grupos');
     }
 };
